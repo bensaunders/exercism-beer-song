@@ -12,18 +12,31 @@ so this solution is based on the lessons I took away from that reading:
 * assuming that the code does need to be made more maintainable,
   gradually refactor your code by fixing one code smell at a time
 
+Hopefully it goes without saying that this is an over-complicated solution
+to a fairly simple puzzle! If this really was all we wanted to achieve, we
+could do it much more simply. We're assuming that the puzzle is standing in
+for a real-world problem, which would need to be worked on and extended by a
+team of developers over a period of time, and which therefore deserves such an
+in-depth treatment.
+
 ### Iteration 1
 
 This is my "shameless green" iteration. All the tests pass, and the code does
 a pretty good job of making it clear what the shape of the problem is:
 most verses are of the same type, but there are a few exceptions.
 
-### Iteration 2 (current)
+### Iteration 2
 
 This iteration is actually worse than before, in many ways. It's certainly less
 easy to see at a glance what the code does. But it starts to uncover the exact
 similarities and differences between the types of verse, and it gives names to
 some of the component parts.
+
+### Iteration 3 (current)
+
+This iteration uses classes and inheritance to describe the different types of
+verse. We no longer need to disable any style checks, and some of the clarity
+is returning.
 
 ## Introduction
 
