@@ -32,11 +32,16 @@ easy to see at a glance what the code does. But it starts to uncover the exact
 similarities and differences between the types of verse, and it gives names to
 some of the component parts.
 
-### Iteration 3 (current)
+### Iteration 3
 
 This iteration uses classes and inheritance to describe the different types of
 verse. We no longer need to disable any style checks, and some of the clarity
 is returning.
+
+### Iteration 4 (current)
+
+Here we just make a small change so that the Beer Song class doesn't have to
+know which verse types are used for which numbers of bottles.
 
 ## Introduction
 

@@ -9,15 +9,22 @@ class BeerSong
   end
 
   def self.verse(bottles)
-    case bottles
-    when 0
-      LastVerse.new(bottles).sing
-    when 1
-      SecondToLastVerse.new(bottles).sing
-    when 2
-      ThirdToLastVerse.new(bottles).sing
-    else
-      Verse.new(bottles).sing
+    VerseFactory.build(bottles).sing
+  end
+
+  # A factory for building the appropriate verse for a number of bottles
+  class VerseFactory
+    def self.build(bottles)
+      case bottles
+      when 0
+        LastVerse.new(bottles)
+      when 1
+        SecondToLastVerse.new(bottles)
+      when 2
+        ThirdToLastVerse.new(bottles)
+      else
+        Verse.new(bottles)
+      end
     end
   end
 
