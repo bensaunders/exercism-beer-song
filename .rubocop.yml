@@ -1,0 +1,26 @@
+require: rubocop-minitest
+
+inherit_from: .rubocop_todo.yml
+
+inherit_mode:
+  merge:
+    - Exclude
+
+AllCops:
+  NewCops: enable
+
+Style:
+  Exclude:
+    - beer_song_test.rb
+
+Style/Documentation:
+  Exclude:
+    - beer_song_test.rb
+
+Metrics:
+  Exclude:
+    - beer_song_test.rb
+
+Metrics/MethodLength:
+  Exclude:
+    - beer_song_test.rb
