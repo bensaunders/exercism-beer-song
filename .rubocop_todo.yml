@@ -9,5 +9,7 @@
 # Offense count: 1
 # Configuration parameters: CountComments, CountAsOne, ExcludedMethods, AllowedMethods, AllowedPatterns, IgnoredMethods.
 Metrics/MethodLength:
-  Exclude:
-    - beer_song.rb
+  Enabled: false
+
+Metrics/AbcSize:
+  Enabled: false

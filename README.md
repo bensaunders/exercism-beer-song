@@ -18,6 +18,13 @@ This is my "shameless green" iteration. All the tests pass, and the code does
 a pretty good job of making it clear what the shape of the problem is:
 most verses are of the same type, but there are a few exceptions.
 
+### Iteration 2 (current)
+
+This iteration is actually worse than before, in many ways. It's certainly less
+easy to see at a glance what the code does. But it starts to uncover the exact
+similarities and differences between the types of verse, and it gives names to
+some of the component parts.
+
 ## Introduction
 
 Welcome to [Beer Song on Exercism's Ruby Track](https://exercism.org/tracks/ruby/exercises/beer-song).

@@ -11,25 +11,33 @@ class BeerSong
   def self.verse(bottles)
     case bottles
     when 0
-      <<~TEXT
-        No more bottles of beer on the wall, no more bottles of beer.
-        Go to the store and buy some more, 99 bottles of beer on the wall.
-      TEXT
+      initial_quantity = 'No more'
+      initial_container = 'bottles'
+      action = 'Go to the store and buy some more'
+      resulting_quantity = 99
+      resulting_container = 'bottles'
     when 2
-      <<~TEXT
-        2 bottles of beer on the wall, 2 bottles of beer.
-        Take one down and pass it around, 1 bottle of beer on the wall.
-      TEXT
+      initial_quantity = '2'
+      initial_container = 'bottles'
+      action = 'Take one down and pass it around'
+      resulting_quantity = 1
+      resulting_container = 'bottle'
     when 1
-      <<~TEXT
-        1 bottle of beer on the wall, 1 bottle of beer.
-        Take it down and pass it around, no more bottles of beer on the wall.
-      TEXT
+      initial_quantity = '1'
+      initial_container = 'bottle'
+      action = 'Take it down and pass it around'
+      resulting_quantity = 'no more'
+      resulting_container = 'bottles'
     else
-      <<~TEXT
-        #{bottles} bottles of beer on the wall, #{bottles} bottles of beer.
-        Take one down and pass it around, #{bottles - 1} bottles of beer on the wall.
-      TEXT
+      initial_quantity = bottles.to_s
+      initial_container = 'bottles'
+      action = 'Take one down and pass it around'
+      resulting_quantity = bottles - 1
+      resulting_container = 'bottles'
     end
+    <<~TEXT
+      #{initial_quantity} #{initial_container} of beer on the wall, #{initial_quantity.downcase} #{initial_container} of beer.
+      #{action}, #{resulting_quantity} #{resulting_container} of beer on the wall.
+    TEXT
   end
 end
