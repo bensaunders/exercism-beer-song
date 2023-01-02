@@ -2,104 +2,108 @@
 
 # A solution to the Beer Song exercise from Exercism
 class BeerSong
-  def self.recite(bottles, verses)
-    bottles.downto(bottles - (verses - 1)).reduce([]) do |memo, verse_bottles|
-      memo << verse(verse_bottles)
-    end.join("\n")
+  MAX_CONTAINERS = 99
+
+  def self.recite(containers, verses)
+    song = []
+    verses.times do
+      song << verse(containers)
+      containers -= 1
+    end
+    song.join("\n")
   end
 
-  def self.verse(bottles)
-    VerseFactory.build(bottles).sing
+  def self.verse(containers)
+    situation = SubstanceSituationFactory.build(containers, MAX_CONTAINERS)
+    Verse.new(situation).sing
   end
 
-  # A factory for building the appropriate verse for a number of bottles
-  class VerseFactory
-    def self.build(bottles)
-      case bottles
+  # A factory for building the appropriate situation
+  # for an amount of a substance
+  module SubstanceSituationFactory
+    def self.build(number, max)
+      case number
       when 0
-        LastVerse.new(bottles)
+        NoSubstance.new(number, max)
       when 1
-        SecondToLastVerse.new(bottles)
-      when 2
-        ThirdToLastVerse.new(bottles)
+        OneSubstance.new(number, max)
       else
-        Verse.new(bottles)
+        SubstanceSituation.new(number, max)
       end
     end
   end
 
-  # Describes a verse of the beer song
-  class Verse
-    def initialize(number)
+  # a class that describes the situation when there are a
+  # certain number of containers of a substance available,
+  # and you take some action to create a new situation
+  class SubstanceSituation
+    def initialize(number, max)
       @number = number
+      @max = max
     end
 
-    def sing
-      <<~TEXT
-        #{initial_quantity} #{initial_container} of beer on the wall, #{initial_quantity.downcase} #{initial_container} of beer.
-        #{action}, #{resulting_quantity.downcase} #{resulting_container} of beer on the wall.
-      TEXT
-    end
-
-    private
-
-    attr_reader :number
-
-    def initial_quantity
-      number.to_s
-    end
-
-    def initial_container
-      'bottles'
+    def description
+      "#{number} bottles"
     end
 
     def action
       'Take one down and pass it around'
     end
 
-    def resulting_quantity
-      (number - 1).to_s
+    def next_situation
+      SubstanceSituationFactory.build(number - 1, max)
     end
 
-    def resulting_container
-      'bottles'
-    end
+    private
+
+    attr_reader :number, :max
   end
 
-  # A verse that's suitable for when there are two bottles left
-  class ThirdToLastVerse < Verse
-    def resulting_container
-      'bottle'
-    end
-  end
-
-  # A verse that's suitable for when there is one bottle left
-  class SecondToLastVerse < Verse
-    def initial_container
-      'bottle'
+  # a class for when there's one container left
+  class OneSubstance < SubstanceSituation
+    def description
+      '1 bottle'
     end
 
     def action
       'Take it down and pass it around'
     end
-
-    def resulting_quantity
-      'No more'
-    end
   end
 
-  # A verse that's suitable for when there are no bottles left
-  class LastVerse < Verse
-    def initial_quantity
-      'No more'
+  # a class for when there are no containers left
+  class NoSubstance < SubstanceSituation
+    def description
+      'No more bottles'
     end
 
     def action
       'Go to the store and buy some more'
     end
 
-    def resulting_quantity
-      '99'
+    def next_situation
+      SubstanceSituationFactory.build(max, max)
     end
+  end
+
+  # Describes a verse of a substance song
+  class Verse
+    def initialize(situation)
+      @situation = situation
+    end
+
+    def sing
+      <<~TEXT
+        #{situation.description} of beer on the wall, #{situation.description.downcase} of beer.
+        #{situation.action}, #{next_situation.description.downcase} of beer on the wall.
+      TEXT
+    end
+
+    private
+
+    def next_situation
+      situation.next_situation
+    end
+
+    attr_reader :situation
   end
 end

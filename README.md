@@ -38,10 +38,22 @@ This iteration uses classes and inheritance to describe the different types of
 verse. We no longer need to disable any style checks, and some of the clarity
 is returning.
 
-### Iteration 4 (current)
+### Iteration 4
 
 Here we just make a small change so that the Beer Song class doesn't have to
 know which verse types are used for which numbers of bottles.
+
+### Iteration 5 (current)
+
+This iteration tackles some duplication in the verse. Each verse object does
+some work to describe the number of bottles you start with, and the number that
+are left after you drink them (or buy some more if need be). In fact, these are
+really the same thing: a situation where a certain number of bottles of beer
+are available. Or, to avoid baking the specific ideas of 'bottles' and 'beer'
+into the code, a situation describing a certain amount of a certain substance;
+a 'substance situation'. By moving most of the logic from the Verse into the
+new SubstanceSituation class, the duplication is removed in a way that
+describes the problem domain more accurately.
 
 ## Introduction
 
