@@ -1,34 +1,53 @@
 # frozen_string_literal: true
 
 # A solution to the Beer Song exercise from Exercism
-class BeerSong
-  MAX_CONTAINERS = 99
+class SubstanceSong
+  FIRST_VERSE = 99
 
-  def self.recite(containers, verses)
-    song = []
-    verses.times do
-      song << verse(containers)
-      containers -= 1
-    end
-    song.join("\n")
+  def self.recite(start_verse, song_length)
+    new(
+      start_verse,
+      song_length
+    ).recite
   end
 
-  def self.verse(containers)
-    situation = SubstanceSituationFactory.build(containers, MAX_CONTAINERS)
-    Verse.new(situation).sing
+  def initialize(start_verse, song_length, situation_factory = SubstanceSituationFactory)
+    @situation = situation_factory.build(
+      start_verse,
+      FIRST_VERSE
+    )
+    @song = Array.new(song_length)
+  end
+
+  def recite
+    song.each_index do |index|
+      song[index] = verse
+      self.situation = situation.next_situation
+    end.join("\n")
+  end
+
+  private
+
+  attr_accessor :song, :situation
+
+  def verse
+    <<~TEXT
+      #{situation.description} of beer on the wall, #{situation.description.downcase} of beer.
+      #{situation.action}, #{situation.next_situation.description.downcase} of beer on the wall.
+    TEXT
   end
 
   # A factory for building the appropriate situation
   # for an amount of a substance
   module SubstanceSituationFactory
-    def self.build(number, max)
-      case number
+    def self.build(substance_amount, max)
+      case substance_amount
       when 0
-        NoSubstance.new(number, max)
+        NoSubstance.new(substance_amount, max)
       when 1
-        OneSubstance.new(number, max)
+        OneSubstance.new(substance_amount, max)
       else
-        SubstanceSituation.new(number, max)
+        PlentyOfSubstance.new(substance_amount, max)
       end
     end
   end
@@ -37,13 +56,13 @@ class BeerSong
   # certain number of containers of a substance available,
   # and you take some action to create a new situation
   class SubstanceSituation
-    def initialize(number, max)
-      @number = number
+    def initialize(amount, max)
+      @amount = amount
       @max = max
     end
 
     def description
-      "#{number} bottles"
+      "#{amount} bottles"
     end
 
     def action
@@ -51,13 +70,15 @@ class BeerSong
     end
 
     def next_situation
-      SubstanceSituationFactory.build(number - 1, max)
+      SubstanceSituationFactory.build(amount - 1, max)
     end
 
     private
 
-    attr_reader :number, :max
+    attr_reader :amount, :max
   end
+
+  PlentyOfSubstance = SubstanceSituation
 
   # a class for when there's one container left
   class OneSubstance < SubstanceSituation
@@ -83,27 +104,5 @@ class BeerSong
     def next_situation
       SubstanceSituationFactory.build(max, max)
     end
-  end
-
-  # Describes a verse of a substance song
-  class Verse
-    def initialize(situation)
-      @situation = situation
-    end
-
-    def sing
-      <<~TEXT
-        #{situation.description} of beer on the wall, #{situation.description.downcase} of beer.
-        #{situation.action}, #{next_situation.description.downcase} of beer on the wall.
-      TEXT
-    end
-
-    private
-
-    def next_situation
-      situation.next_situation
-    end
-
-    attr_reader :situation
   end
 end

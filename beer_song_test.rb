@@ -1,13 +1,13 @@
 require 'minitest/autorun'
 require_relative 'beer_song'
 
-class BeerSongTest < Minitest::Test
+class SubstanceSongTest < Minitest::Test
   def test_first_generic_verse
     expected = <<~TEXT
       99 bottles of beer on the wall, 99 bottles of beer.
       Take one down and pass it around, 98 bottles of beer on the wall.
     TEXT
-    assert_equal expected, BeerSong.recite(99, 1)
+    assert_equal expected, SubstanceSong.recite(99, 1)
   end
 
   def test_last_generic_verse
@@ -15,7 +15,7 @@ class BeerSongTest < Minitest::Test
       3 bottles of beer on the wall, 3 bottles of beer.
       Take one down and pass it around, 2 bottles of beer on the wall.
     TEXT
-    assert_equal expected, BeerSong.recite(3, 1)
+    assert_equal expected, SubstanceSong.recite(3, 1)
   end
 
   def test_verse_with_2_bottles
@@ -23,7 +23,7 @@ class BeerSongTest < Minitest::Test
       2 bottles of beer on the wall, 2 bottles of beer.
       Take one down and pass it around, 1 bottle of beer on the wall.
     TEXT
-    assert_equal expected, BeerSong.recite(2, 1)
+    assert_equal expected, SubstanceSong.recite(2, 1)
   end
 
   def test_verse_with_1_bottle
@@ -31,7 +31,7 @@ class BeerSongTest < Minitest::Test
       1 bottle of beer on the wall, 1 bottle of beer.
       Take it down and pass it around, no more bottles of beer on the wall.
     TEXT
-    assert_equal expected, BeerSong.recite(1, 1)
+    assert_equal expected, SubstanceSong.recite(1, 1)
   end
 
   def test_verse_with_0_bottles
@@ -39,7 +39,7 @@ class BeerSongTest < Minitest::Test
       No more bottles of beer on the wall, no more bottles of beer.
       Go to the store and buy some more, 99 bottles of beer on the wall.
     TEXT
-    assert_equal expected, BeerSong.recite(0, 1)
+    assert_equal expected, SubstanceSong.recite(0, 1)
   end
 
   def test_first_two_verses
@@ -50,7 +50,7 @@ class BeerSongTest < Minitest::Test
       98 bottles of beer on the wall, 98 bottles of beer.
       Take one down and pass it around, 97 bottles of beer on the wall.
     TEXT
-    assert_equal expected, BeerSong.recite(99, 2)
+    assert_equal expected, SubstanceSong.recite(99, 2)
   end
 
   def test_last_three_verses
@@ -64,7 +64,27 @@ class BeerSongTest < Minitest::Test
       No more bottles of beer on the wall, no more bottles of beer.
       Go to the store and buy some more, 99 bottles of beer on the wall.
     TEXT
-    assert_equal expected, BeerSong.recite(2, 3)
+    assert_equal expected, SubstanceSong.recite(2, 3)
+  end
+
+  def test_rolling_over
+    expected = <<~TEXT
+      2 bottles of beer on the wall, 2 bottles of beer.
+      Take one down and pass it around, 1 bottle of beer on the wall.
+
+      1 bottle of beer on the wall, 1 bottle of beer.
+      Take it down and pass it around, no more bottles of beer on the wall.
+
+      No more bottles of beer on the wall, no more bottles of beer.
+      Go to the store and buy some more, 99 bottles of beer on the wall.
+
+      99 bottles of beer on the wall, 99 bottles of beer.
+      Take one down and pass it around, 98 bottles of beer on the wall.
+
+      98 bottles of beer on the wall, 98 bottles of beer.
+      Take one down and pass it around, 97 bottles of beer on the wall.
+    TEXT
+    assert_equal expected, SubstanceSong.recite(2, 5)
   end
 
   def test_all_verses
@@ -369,6 +389,6 @@ class BeerSongTest < Minitest::Test
       No more bottles of beer on the wall, no more bottles of beer.
       Go to the store and buy some more, 99 bottles of beer on the wall.
     TEXT
-    assert_equal expected, BeerSong.recite(99, 100)
+    assert_equal expected, SubstanceSong.recite(99, 100)
   end
 end

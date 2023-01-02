@@ -43,7 +43,7 @@ is returning.
 Here we just make a small change so that the Beer Song class doesn't have to
 know which verse types are used for which numbers of bottles.
 
-### Iteration 5 (current)
+### Iteration 5
 
 This iteration tackles some duplication in the verse. Each verse object does
 some work to describe the number of bottles you start with, and the number that
@@ -54,6 +54,19 @@ into the code, a situation describing a certain amount of a certain substance;
 a 'substance situation'. By moving most of the logic from the Verse into the
 new SubstanceSituation class, the duplication is removed in a way that
 describes the problem domain more accurately.
+
+### Iteration 6 (current)
+
+The introduction of the SubstanceSituation class has now allowed us to do away
+with the verse class completely. Because the SubstanceSituation can tell us
+which situation comes next, we can use that to progress the song. This allows
+a new feature that was always suggested by the lyrics but never catered for:
+starting again from 99 when we reach the end of the song.
+
+In addition, the SubstanceSong class (now renamed to remove the last hard-coded)
+mention of beer) is instantiated, to underscore the fact that this is "a"
+song, not "the" song; we could now quite easily create new songs about
+new substances, where the actions taken create different new situations.
 
 ## Introduction
 
